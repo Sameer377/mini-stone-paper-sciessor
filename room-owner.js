@@ -1,4 +1,8 @@
 
+import { getDatabase, ref, set,child, get,remove} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { app } from "./firebaseConfig.js";
+const database = getDatabase(app);
+
 
 let selected_img = "";
 let play_btn = document.getElementById('btn_play');
@@ -17,7 +21,7 @@ const txt_roomid = document.getElementById('roomid');
 window.onload=function(){
     roomId=localStorage.getItem('room_id');
     txt_roomid.textContent="Room Id : "+roomId;     
-    console.log("room"+roomId);
+    console.log("room : "+roomId);
 }
 
 
@@ -76,12 +80,14 @@ function delayedLoop(count) {
 document.getElementById('btn_stone').addEventListener('click', function() {
     // Redirect to another pagex    x   
     selectImg=0;
+    uploadOwnerChoice(0)
     rightImg.src='res/right_img/stone.png';
 });
 
 document.getElementById('btn_paper').addEventListener('click', function() {
     // Redirect to another page
     selectImg=1;
+    uploadOwnerChoice(1)
 
     rightImg.src='res/right_img/paper.png';
 
@@ -90,31 +96,33 @@ document.getElementById('btn_paper').addEventListener('click', function() {
 document.getElementById('btn_scissor').addEventListener('click', function() {
     // Redirect to another page
     selectImg=2;
+    uploadOwnerChoice(2)
     
     rightImg.src='res/right_img/scissor.png';
 
 });
 
 function getSelectedMove(){
-    let computerMove = getRandomInt(0,2);
-    leftImg.src=leftImgUrl[computerMove];
+    
+    let playerMove = getPlayerChoice();
+    leftImg.src=leftImgUrl[playerMove];
 
 
     if(selectImg==-1){
         selectImg=0;
     }
 
-    if(computerMove==selectImg){
+    if(playerMove==selectImg){
         maintitle.textContent= "Draw";
         
-    }else if(computerMove==0 && selectImg==1){
+    }else if(playerMove==0 && selectImg==1){
         maintitle.textContent="You win !";
-    }else if(computerMove==1 && selectImg==2){
+    }else if(playerMove==1 && selectImg==2){
         maintitle.textContent="You win !";
-    }else if(computerMove==2 && selectImg==0){
+    }else if(playerMove==2 && selectImg==0){
         maintitle.textContent="You win !";
     }else{
-        maintitle.textContent="Computer wins";
+        maintitle.textContent="Opponent wins";
     }
 
     resetAll();
@@ -150,3 +158,42 @@ document.getElementById('btn_back').addEventListener('click',function(){
 
 });
 
+
+function uploadOwnerChoice(ch) {
+
+    let data = {
+        owner: ch,
+        player: 0
+    };
+    if (ch !== "") {
+        // Reference to the "rooms" node in the Realtime Database
+        const roomsRef = ref(database, `rooms/${roomId}`);
+
+        // Set the room data with room ID as the key
+        set(roomsRef, data)
+            .then(() => {
+                console.log("Room data added to the database successfully!");
+            })
+            .catch((error) => {
+                console.error("Error adding room data to the database: ", error);
+            });
+    }
+}
+
+let playerCh={};
+
+function getPlayerChoice(){
+    try {
+        get(child(ref(database), `rooms`)).then(snapshot => {
+            const data = snapshot.val();
+
+            playerCh = data;
+            console.log(playerCh[roomId]["player"]);
+            return play_btn.roomId;  
+        })
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+
+    return 0;
+}
