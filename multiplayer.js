@@ -1,31 +1,41 @@
+// Function to handle joining a room
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-import { app } from "./firebaseConfig";
+import { app } from "./firebaseConfig.js";
 
 const database = getDatabase(app);
+let room_Id ;
 
-function joinRoom() {
-    const roomId = document.getElementById("fname").value.trim(); // Get the room ID from the input field
-    // Check if room ID is not empty
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+document.getElementById("createroom").addEventListener("click", function () {
+    createRoom();
+
+});
+
+function createRoom() {
+    room_Id = getRandomInt(123456, 999999);
+
     let data = {
         owner: 1,
         player: 0
     };
-    if (roomId !== "") {
+    if (room_Id !== "") {
         // Reference to the "rooms" node in the Realtime Database
-        const roomsRef = ref(database, `rooms/${roomId}`);
+        const roomsRef = ref(database, `rooms/${room_Id}`);
 
         // Set the room data with room ID as the key
         set(roomsRef, data)
             .then(() => {
                 console.log("Room data added to the database successfully!");
-                // Clear the input field after successful submission
-                document.getElementById("fname").value = "";
+                localStorage.setItem("room_id", room_Id)
+                window.location.href = 'room-owner.html';
             })
             .catch((error) => {
                 console.error("Error adding room data to the database: ", error);
             });
-    } else {
-        console.log("Please enter a valid room ID.");
     }
 }
-document.getElementById("join_btn").addEventListener("click", joinRoom);
+
+// Event listener for join button click
+
