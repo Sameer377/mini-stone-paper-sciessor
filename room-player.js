@@ -162,6 +162,7 @@ document.getElementById('btn_back').addEventListener('click',function(){
 function uploadOwnerChoice(ch) {
 
     let data = {
+        owner:getPlayerChoice(),
         player: ch
     };
     if (ch !== "") {

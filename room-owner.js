@@ -162,7 +162,8 @@ document.getElementById('btn_back').addEventListener('click',function(){
 function uploadOwnerChoice(ch) {
 
     let data = {
-        owner: ch
+        owner: ch,
+        player:getPlayerChoice()
     };
     if (ch !== "") {
         // Reference to the "rooms" node in the Realtime Database

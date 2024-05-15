@@ -31,7 +31,7 @@ function createRoom() {
     room_Id = getRandomInt(123456, 999999);
 
     let data = {
-        owner: 1,
+        owner: 0,
         player: 0
     };
     if (room_Id !== "") {
