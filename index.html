@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div id="maindiv">
+        <div class="imgbar">
+            
+            <div id="imgdiv" >
+                <img  src="res/sps-removebg-preview.png" alt="Image 1" >
+            </div>
+            <div id="titlediv" > 
+                <h1>Stone paper scissor</h1>
+            </div>
+        </div>
+        <div style="display: flex; margin-top: 30px;">
+
+            <div class="btndiv1" id="div_btn_computer">
+                <img id="computer" src="res/comp2.png" alt="Image 1" width="60px" height="60px">
+                <h3>Play with computer</h3>
+            </div>
+            <div class="btndiv1" id="div_btn_multiplayer">
+                <img id="friends" src="res/friends.png" alt="Image 1" width="60px" height="60px">
+                <h3>Play with friends</h3>
+            </div>
+
+
+        </div>
+
+
+        <script src="index.js"></script>
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+          
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+              apiKey: "AIzaSyA9lOgHMKxsimqDSTFuHJf8A_H_pNMtSEE",
+              authDomain: "stone-paper-scissor-23ead.firebaseapp.com",
+              databaseURL: "https://stone-paper-scissor-23ead-default-rtdb.firebaseio.com",
+              projectId: "stone-paper-scissor-23ead",
+              storageBucket: "stone-paper-scissor-23ead.appspot.com",
+              messagingSenderId: "858720375139",
+              appId: "1:858720375139:web:233e2682fb980fc493c356",
+              measurementId: "G-5T5L04S378"
+            };
+          
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+          </script>
+       
+</body>
+
+</html>

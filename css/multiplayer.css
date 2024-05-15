@@ -1,0 +1,117 @@
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#maindiv {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: beige;
+}
+
+.square {
+    width: 500px;
+    /* Adjust as needed */
+    height: 500px;
+    /* Adjust as needed */
+    background-color: white;
+    /* Adjust as needed */
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-left: 100px;
+    margin-right: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+
+    -webkit-box-shadow: -1px 2px 37px 0px rgba(199, 183, 199, 1);
+    -moz-box-shadow: -1px 2px 37px 0px rgba(199, 183, 199, 1);
+    box-shadow: -1px 2px 37px 0px rgba(199, 183, 199, 1);
+}
+
+h3 {
+    font-family: Epilogue, sans-serif;
+    font-weight: 900;
+    line-height: 1.2em;
+    color: black;
+}
+
+h1,h2{
+    font-family: Epilogue, sans-serif;
+    font-weight: 900;
+    line-height: 1.2em;
+    color: brown;
+}
+
+
+boldfont options
+{
+    font-family: Epilogue, sans-serif;
+    font-weight: 900;
+    font-size: medium;
+    line-height: 1.2em;
+    color: white;
+}
+
+.options {
+    border: 1px solid rgb(71, 30, 30);
+    /* Border style */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 10px;
+    margin: 20px;
+    background-color: rgb(252, 252, 245);
+}
+
+#join_btn {
+    border: none;
+    background-color: brown;
+    color: white;
+    width: 200px;
+    height: 60px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 10px;
+
+    font-family: Epilogue, sans-serif;
+    font-weight: 900;
+    font-size: medium;
+    line-height: 1.2em;
+    color: white;
+
+    margin-top: 30px;
+}
+
+
+input[type=text], select {
+    width: 100%;
+    padding: 20px 20px;
+    margin: 8px 0;
+    text-align: center;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-family: Epilogue, sans-serif;
+    font-weight: 900;
+    font-size: medium;
+    line-height: 1.2em;
+    color: rgb(32, 32, 32);
+  }
