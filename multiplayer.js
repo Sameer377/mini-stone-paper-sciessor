@@ -17,11 +17,12 @@ document.getElementById("join_btn").addEventListener("click", function () {
     joinRoom();
 
 });
-let joinRoomId
+let joinRoomId="";
 function joinRoom(){
     joinRoomId = document.getElementById('ip_joinid').value;
-    localStorage.setItem("room_id",joinRoom);
-    window.location.href = "room-player.html";
+    console.log("iddddd : ",joinRoomId)
+     localStorage.setItem("room_id",joinRoomId);
+   window.location.href = "room-player.html";
 }
 
 
