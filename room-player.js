@@ -19,22 +19,25 @@ let roomId;
 const txt_roomid = document.getElementById('roomid');
 let flag = 0
 
-window.onload=function(){
+window.onload.then(onStart)=function stt(){
     roomId=localStorage.getItem('room_id');
     txt_roomid.textContent="Room Id : "+roomId;     
     console.log("room : "+roomId);
-}.then(()=>{
-    get(child(ref(database), `rooms`)).then(snapshot => {
-        const data = snapshot.val();
-        playerCh = data;
-        console.log("Sameer choice : ",playerCh[roomId]["start"]);
-        flag =  playerCh[roomId]["start"];  
-    }).then(()=>{
-        if (flag == 1) {
-            delayedLoop(10)
-    }
-    })
+}
+
+
+function onStart(){
+        get(child(ref(database), `rooms`)).then(snapshot => {
+            const data = snapshot.val();
+            playerCh = data;
+            console.log("Sameer choice : ",playerCh[roomId]["start"]);
+            flag =  playerCh[roomId]["start"];  
+        }).then(()=>{
+            if (flag == 1) {
+                delayedLoop(10)
+        }
 })
+}
 
 
 const rightImgUrl = ['res/right_img/stone.png', 'res/right_img/paper.png', 'res/right_img/scissor.png'];
