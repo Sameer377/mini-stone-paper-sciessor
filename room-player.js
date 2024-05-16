@@ -104,29 +104,42 @@ document.getElementById('btn_scissor').addEventListener('click', function() {
 
 function getSelectedMove(){
     
-    let playerMove = getPlayerChoice();
-    leftImg.src=leftImgUrl[playerMove];
+  
+    try {
+        get(child(ref(database), `rooms`)).then(snapshot => {
+            const data = snapshot.val();
 
-
-    if(selectImg==-1){
-        selectImg=0;
-    }
-
-    if(playerMove==selectImg){
-        maintitle.textContent= "Draw";
+            playerCh = data;
+            playerMove = playerCh[roomId]["owner"];  
+        }).then(()=>{
+            console.log("get o move : ",playerMove);
+            leftImg.src=leftImgUrl[playerMove];
         
-    }else if(playerMove==0 && selectImg==1){
-        maintitle.textContent="You win !";
-    }else if(playerMove==1 && selectImg==2){
-        maintitle.textContent="You win !";
-    }else if(playerMove==2 && selectImg==0){
-        maintitle.textContent="You win !";
-    }else{
-        maintitle.textContent="Opponent wins";
+        
+            if(selectImg==-1){
+                selectImg=0;
+            }
+        
+            if(playerMove==selectImg){
+                maintitle.textContent= "Draw";
+                
+            }else if(playerMove==0 && selectImg==1){
+                maintitle.textContent="You win !";
+            }else if(playerMove==1 && selectImg==2){
+                maintitle.textContent="You win !";
+            }else if(playerMove==2 && selectImg==0){
+                maintitle.textContent="You win !";
+            }else{
+                maintitle.textContent="Opponent wins";
+            }
+        
+            resetAll();
+        })
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        
     }
 
-    resetAll();
-   
 }
 
  

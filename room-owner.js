@@ -102,30 +102,73 @@ document.getElementById('btn_scissor').addEventListener('click', function() {
 
 });
 
+
+
+let playerCh={};
+/* 
+function getPlayerChoice(){
+    let res = 0
+    try {
+        get(child(ref(database), `rooms`)).then(snapshot => {
+            const data = snapshot.val();
+
+            playerCh = data;
+            console.log("Vivek : ",playerCh[roomId]["player"]);
+            res= playerCh[roomId]["player"];  
+        })
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        
+    }
+
+    return res;
+}
+ */
+let playerMove = 0
 function getSelectedMove(){
     
-    let playerMove = getPlayerChoice();
-    leftImg.src=leftImgUrl[playerMove];
 
+    try {
+        get(child(ref(database), `rooms`)).then(snapshot => {
+            const data = snapshot.val();
 
-    if(selectImg==-1){
-        selectImg=0;
-    }
-
-    if(playerMove==selectImg){
-        maintitle.textContent= "Draw";
+            playerCh = data;
+            console.log("Vivek : ",playerCh[roomId]["player"]);
+            playerMove = playerCh[roomId]["player"];  
+            console.log("Vivek inner : ",playerMove);
+        }).then(()=>{
+            console.log("get move : ",playerMove);
+            leftImg.src=leftImgUrl[playerMove];
         
-    }else if(playerMove==0 && selectImg==1){
-        maintitle.textContent="You win !";
-    }else if(playerMove==1 && selectImg==2){
-        maintitle.textContent="You win !";
-    }else if(playerMove==2 && selectImg==0){
-        maintitle.textContent="You win !";
-    }else{
-        maintitle.textContent="Opponent wins";
+        
+            if(selectImg==-1){
+                selectImg=0;
+            }
+        
+            if(playerMove==selectImg){
+                maintitle.textContent= "Draw";
+                
+            }else if(playerMove==0 && selectImg==1){
+                maintitle.textContent="You win !";
+            }else if(playerMove==1 && selectImg==2){
+                maintitle.textContent="You win !";
+            }else if(playerMove==2 && selectImg==0){
+                maintitle.textContent="You win !";
+            }else{
+                maintitle.textContent="Opponent wins";
+            }
+        
+            resetAll();
+        })
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        
     }
 
-    resetAll();
+
+    
+
+    
    
 }
 
@@ -178,22 +221,4 @@ function uploadOwnerChoice(ch) {
                 console.error("Error adding room data to the database: ", error);
             });
     }
-}
-
-let playerCh={};
-
-function getPlayerChoice(){
-    try {
-        get(child(ref(database), `rooms`)).then(snapshot => {
-            const data = snapshot.val();
-
-            playerCh = data;
-            console.log("Vivek : ",playerCh[roomId]["player"]);
-            return playerCh[roomId]["player"];  
-        })
-    } catch (error) {
-        console.error("Error fetching data:", error);
-    }
-
-    return 0;
 }
