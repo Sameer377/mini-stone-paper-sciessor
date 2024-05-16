@@ -23,7 +23,7 @@ window.onload=function (){
     roomId=localStorage.getItem('room_id');
     txt_roomid.textContent="Room Id : "+roomId;     
     console.log("room : "+roomId);
-    onStart();
+    // onStart();
 }
 
 
