@@ -1,5 +1,5 @@
 
-import { getDatabase, ref, set,child, get,remove} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, set,child, get,update} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { app } from "./firebaseConfig.js";
 const database = getDatabase(app);
 
@@ -162,7 +162,6 @@ document.getElementById('btn_back').addEventListener('click',function(){
 function uploadOwnerChoice(ch) {
 
     let data = {
-        owner:getPlayerChoice(),
         player: ch
     };
     if (ch !== "") {
@@ -170,7 +169,7 @@ function uploadOwnerChoice(ch) {
         const roomsRef = ref(database, `rooms/${roomId}`);
 
         // Set the room data with room ID as the key
-        set(roomsRef, data)
+        update(roomsRef, data)
             .then(() => {
                 console.log("Room data added to the database successfully!");
             })
@@ -186,11 +185,9 @@ function getPlayerChoice(){
     try {
         get(child(ref(database), `rooms`)).then(snapshot => {
             const data = snapshot.val();
-
             playerCh = data;
-            console.log("owner choice : ",playerCh[roomId]["owner"]);
+            console.log("Sameer choice : ",playerCh[roomId]["owner"]);
             return playerCh[roomId]["owner"];  
-
 
         })
     } catch (error) {

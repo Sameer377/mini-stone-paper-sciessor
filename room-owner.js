@@ -1,5 +1,5 @@
 
-import { getDatabase, ref, set,child, get,remove} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, set,child, get,update} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { app } from "./firebaseConfig.js";
 const database = getDatabase(app);
 
@@ -162,15 +162,15 @@ document.getElementById('btn_back').addEventListener('click',function(){
 function uploadOwnerChoice(ch) {
 
     let data = {
-        owner: ch,
-        player:getPlayerChoice()
+        owner: ch
+       
     };
     if (ch !== "") {
         // Reference to the "rooms" node in the Realtime Database
         const roomsRef = ref(database, `rooms/${roomId}`);
 
         // Set the room data with room ID as the key
-        set(roomsRef, data)
+        update(roomsRef, data)
             .then(() => {
                 console.log("Room data added to the database successfully!");
             })
@@ -188,8 +188,8 @@ function getPlayerChoice(){
             const data = snapshot.val();
 
             playerCh = data;
-            console.log(playerCh[roomId]["player"]);
-            return play_btn.roomId;  
+            console.log("Vivek : ",playerCh[roomId]["player"]);
+            return playerCh[roomId]["player"];  
         })
     } catch (error) {
         console.error("Error fetching data:", error);
