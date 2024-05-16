@@ -183,12 +183,26 @@ function resetAll(){
     currentIndex=0;
 }
 
-
 let play_flag = true;
+
+const roomsRef = ref(database, `rooms/${roomId}`);
+
 
 play_btn.addEventListener('click', function() {
 
     if(play_flag){
+
+       
+
+        // Set the room data with room ID as the key
+        update(roomsRef, {start:1})
+            .then(() => {
+                console.log("Room data added to the database successfully!");
+            })
+            .catch((error) => {
+                console.error("Error adding room data to the database: ", error);
+            });
+
         delayedLoop(10);
         play_flag=false;
         play_btn.style.display='none';
@@ -201,7 +215,6 @@ document.getElementById('btn_back').addEventListener('click',function(){
 
 });
 
-
 function uploadOwnerChoice(ch) {
 
     let data = {
@@ -210,7 +223,6 @@ function uploadOwnerChoice(ch) {
     };
     if (ch !== "") {
         // Reference to the "rooms" node in the Realtime Database
-        const roomsRef = ref(database, `rooms/${roomId}`);
 
         // Set the room data with room ID as the key
         update(roomsRef, data)

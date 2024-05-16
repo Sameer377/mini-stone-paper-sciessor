@@ -74,7 +74,21 @@ function delayedLoop(count) {
     
 }
 
+const ref = database.ref(`rooms/${roomId}/start`);
 
+ref.on('value', (snapshot) => {
+    // This callback will be triggered whenever the data at 'path/to/data' changes
+    const data = snapshot.val();
+    console.log('Data changed:', data);
+    if(data===1){
+        delayedLoop(10);
+        play_flag=false;
+        play_btn.style.display='none';
+    }else{
+    play_btn.style.display='flex';
+    }
+   
+  });
     
 
 document.getElementById('btn_stone').addEventListener('click', function() {

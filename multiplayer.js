@@ -32,7 +32,8 @@ function createRoom() {
 
     let data = {
         owner: 0,
-        player: 0
+        player: 0,
+        start:0
     };
     if (room_Id !== "") {
         // Reference to the "rooms" node in the Realtime Database
