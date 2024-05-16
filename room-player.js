@@ -230,11 +230,12 @@ function getPlayerChoice(){
     return 0;
 }
 
+let flag = 0
 get(child(ref(database), `rooms`)).then(snapshot => {
     const data = snapshot.val();
     playerCh = data;
     console.log("Sameer choice : ",playerCh[roomId]["start"]);
-    return playerCh[roomId]["start"];  
+    flag =  playerCh[roomId]["start"];  
 }).then(()=>{
     if (flag == 1) {
         delayedLoop(10)
