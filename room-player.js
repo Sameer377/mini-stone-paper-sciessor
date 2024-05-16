@@ -74,20 +74,9 @@ function delayedLoop(count) {
     
 }
 
-const roomsRef = ref(database, `rooms/${roomId}`);
 
 
-        get(child(ref(database), `rooms`)).then(snapshot => {
-            const data = snapshot.val();
-            playerCh = data;
-            console.log("Sameer choice : ",playerCh[roomId]["start"]);
-            return playerCh[roomId]["start"];  
-        }).then(()=>{
-            if (flag == 1) {
-                delayedLoop(10)
-        }
-        })
-
+      
     
    
 
@@ -174,6 +163,19 @@ function resetAll(){
 
 let play_flag = true;
 
+const roomsRef = ref(database, `rooms/${roomId}/start`);
+
+function onStart(){
+    
+ref.on('value', (snapshot) => {
+    // This callback will be triggered whenever the data at 'path/to/data' changes
+    const data = snapshot.val();
+    console.log('Data changed:', data);
+  });
+}
+
+onStart();
+
 play_btn.addEventListener('click', function() {
 
     if(play_flag){
@@ -227,3 +229,14 @@ function getPlayerChoice(){
 
     return 0;
 }
+
+get(child(ref(database), `rooms`)).then(snapshot => {
+    const data = snapshot.val();
+    playerCh = data;
+    console.log("Sameer choice : ",playerCh[roomId]["start"]);
+    return playerCh[roomId]["start"];  
+}).then(()=>{
+    if (flag == 1) {
+        delayedLoop(10)
+}
+})
