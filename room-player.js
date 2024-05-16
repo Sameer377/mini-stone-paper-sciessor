@@ -17,12 +17,24 @@ const txt_countdown = document.getElementById('txt_count');
 let roomId;
 
 const txt_roomid = document.getElementById('roomid');
+let flag = 0
 
 window.onload=function(){
     roomId=localStorage.getItem('room_id');
     txt_roomid.textContent="Room Id : "+roomId;     
     console.log("room : "+roomId);
-}
+}.then(()=>{
+    get(child(ref(database), `rooms`)).then(snapshot => {
+        const data = snapshot.val();
+        playerCh = data;
+        console.log("Sameer choice : ",playerCh[roomId]["start"]);
+        flag =  playerCh[roomId]["start"];  
+    }).then(()=>{
+        if (flag == 1) {
+            delayedLoop(10)
+    }
+    })
+})
 
 
 const rightImgUrl = ['res/right_img/stone.png', 'res/right_img/paper.png', 'res/right_img/scissor.png'];
@@ -230,14 +242,4 @@ function getPlayerChoice(){
     return 0;
 }
 
-let flag = 0
-get(child(ref(database), `rooms`)).then(snapshot => {
-    const data = snapshot.val();
-    playerCh = data;
-    console.log("Sameer choice : ",playerCh[roomId]["start"]);
-    flag =  playerCh[roomId]["start"];  
-}).then(()=>{
-    if (flag == 1) {
-        delayedLoop(10)
-}
-})
+
