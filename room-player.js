@@ -74,9 +74,9 @@ function delayedLoop(count) {
     
 }
 
-const ref = database.ref(`rooms/${roomId}/start`);
+const ref1 = database.ref(`rooms/${roomId}/start`);
 
-ref.on('value', (snapshot) => {
+ref1.on('value', (snapshot) => {
     // This callback will be triggered whenever the data at 'path/to/data' changes
     const data = snapshot.val();
     console.log('Data changed:', data);
@@ -90,6 +90,8 @@ ref.on('value', (snapshot) => {
    
   });
     
+
+
 
 document.getElementById('btn_stone').addEventListener('click', function() {
     // Redirect to another pagex    x   
