@@ -77,20 +77,19 @@ function delayedLoop(count) {
 const roomsRef = ref(database, `rooms/${roomId}`);
 
 
-ref(database, `rooms/${roomId}/start`).on('value', (snapshot) => {
-    // This callback will be triggered whenever the data at 'path/to/data' changes
-    const data = snapshot.val();
-    console.log('Data changed:', data);
-    if(data===1){
-        delayedLoop(10);
-        play_flag=false;
-        play_btn.style.display='none';
-    }else{
-    play_btn.style.display='flex';
-    }
-   
-  });
+        get(child(ref(database), `rooms`)).then(snapshot => {
+            const data = snapshot.val();
+            playerCh = data;
+            console.log("Sameer choice : ",playerCh[roomId]["start"]);
+            return playerCh[roomId]["start"];  
+        }).then(()=>{
+            if (flag == 1) {
+                delayedLoop(10)
+        }
+        })
+
     
+   
 
 
 
