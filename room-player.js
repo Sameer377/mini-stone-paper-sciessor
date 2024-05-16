@@ -188,8 +188,10 @@ function getPlayerChoice(){
             const data = snapshot.val();
 
             playerCh = data;
-            console.log(playerCh[roomId]["owner"]);
-            return play_btn.roomId;  
+            console.log("owner choice : ",playerCh[roomId]["owner"]);
+            return playerCh[roomId]["owner"];  
+
+
         })
     } catch (error) {
         console.error("Error fetching data:", error);
