@@ -77,7 +77,7 @@ function delayedLoop(count) {
 const roomsRef = ref(database, `rooms/${roomId}`);
 
 
-roomsRef.on('value', (snapshot) => {
+ref(database, `rooms/${roomId}/start`).on('value', (snapshot) => {
     // This callback will be triggered whenever the data at 'path/to/data' changes
     const data = snapshot.val();
     console.log('Data changed:', data);
