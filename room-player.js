@@ -102,6 +102,8 @@ document.getElementById('btn_scissor').addEventListener('click', function() {
 
 });
 
+let playerMove = 0
+
 function getSelectedMove(){
     
   
