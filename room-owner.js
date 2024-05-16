@@ -219,13 +219,12 @@ function uploadOwnerChoice(ch) {
 
     let data = {
         owner: ch
-       
     };
     if (ch !== "") {
         // Reference to the "rooms" node in the Realtime Database
 
         // Set the room data with room ID as the key
-        update(roomsRef, data)
+        update(ref(database, `rooms/${roomId}`), data)
             .then(() => {
                 console.log("Room data added to the database successfully!");
             })

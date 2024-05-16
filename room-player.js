@@ -27,7 +27,7 @@ window.onload=function (){
 }
 
 
-function onStart(){
+/* function onStart(){
         get(child(ref(database), `rooms`)).then(snapshot => {
             const data = snapshot.val();
             playerCh = data;
@@ -38,7 +38,7 @@ function onStart(){
                 delayedLoop(10)
         }
 })
-}
+} */
 
 
 const rightImgUrl = ['res/right_img/stone.png', 'res/right_img/paper.png', 'res/right_img/scissor.png'];
