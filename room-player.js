@@ -1,7 +1,7 @@
 
-import { getDatabase, ref, set,child, get,update} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref as dbref, set,child, get,update} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { app } from "./firebaseConfig.js";
-const database = getDatabase(app);
+var database = getDatabase(app);
 
 
 let selected_img = "";
@@ -19,26 +19,31 @@ let roomId;
 const txt_roomid = document.getElementById('roomid');
 let flag = 0
 
+
+function handleDataChange(snapshot) {
+    var newData = snapshot.val();
+    // Update HTML/CSS accordingly
+    if(newData===1){
+delayedLoop(10);
+        play_flag=false;
+        play_btn.style.display='none';
+    }
+    
+
+  }
+  
+  // Attach listener to listen for changes in a specific path
+
 window.onload=function (){
     roomId=localStorage.getItem('room_id');
     txt_roomid.textContent="Room Id : "+roomId;     
     console.log("room : "+roomId);
-    // onStart();
+    database.ref(`room/${roomId}/start`).on('value', handleDataChange);
+    
 }
 
 
-/* function onStart(){
-        get(child(ref(database), `rooms`)).then(snapshot => {
-            const data = snapshot.val();
-            playerCh = data;
-            console.log("Sameer choice : ",playerCh[roomId]["start"]);
-            flag =  playerCh[roomId]["start"];  
-        }).then(()=>{
-            if (flag == 1) {
-                delayedLoop(10)
-        }
-})
-} */
+
 
 
 const rightImgUrl = ['res/right_img/stone.png', 'res/right_img/paper.png', 'res/right_img/scissor.png'];
@@ -179,18 +184,15 @@ function resetAll(){
 
 let play_flag = true;
 
-const roomsRef = ref(database, `rooms/${roomId}/start`);
+// const ref = ref(database, `rooms/${roomId}/start`);
 
-function onStart(){
     
-ref.on('value', (snapshot) => {
-    // This callback will be triggered whenever the data at 'path/to/data' changes
-    const data = snapshot.val();
-    console.log('Data changed:', data);
-  });
-}
+// ref.on('value', (snapshot) => {
+//     // This callback will be triggered whenever the data at 'path/to/data' changes
+//     const data = snapshot.val();
+//     console.log('Data changed:', data);
+//   });
 
-onStart();
 
 play_btn.addEventListener('click', function() {
 
