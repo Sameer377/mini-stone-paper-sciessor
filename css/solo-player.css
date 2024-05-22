@@ -22,7 +22,7 @@ body{
 #imgdiv{
     display: flex;
     justify-content: center;
-    height: 50vh;
+    height: 400px;
     width: 100vw;
 }
 
@@ -33,6 +33,10 @@ body{
     flex: 1;
     margin: 0 10px;
     height: 100%;
+}
+
+.player_div{
+  width: 100%;
 }
 
 h1{

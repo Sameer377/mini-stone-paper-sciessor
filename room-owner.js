@@ -127,6 +127,8 @@ function getPlayerChoice(){
 let playerMove = 0
 function getSelectedMove(){
     
+    update(ref(database, `rooms/${roomId}`), {start:0});
+    
 
     try {
         get(child(ref(database), `rooms`)).then(snapshot => {
@@ -190,12 +192,14 @@ const roomsRef = ref(database, `rooms/${roomId}`);
 
 play_btn.addEventListener('click', function() {
 
+    console.log(roomId);
+
     if(play_flag){
 
        
 
         // Set the room data with room ID as the key
-        update(roomsRef, {start:1})
+        update(ref(database, `rooms/${roomId}`), {start:1})
             .then(() => {
                 console.log("Room data added to the database successfully!");
             })

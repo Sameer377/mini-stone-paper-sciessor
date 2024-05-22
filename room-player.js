@@ -1,5 +1,5 @@
 
-import { getDatabase, ref as dbref, set,child, get,update} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, set,child,onValue, get,update} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { app } from "./firebaseConfig.js";
 var database = getDatabase(app);
 
@@ -23,6 +23,7 @@ let flag = 0
 function handleDataChange(snapshot) {
     var newData = snapshot.val();
     // Update HTML/CSS accordingly
+    console.log("Start : ",newData);
     if(newData===1){
 delayedLoop(10);
         play_flag=false;
@@ -38,9 +39,21 @@ window.onload=function (){
     roomId=localStorage.getItem('room_id');
     txt_roomid.textContent="Room Id : "+roomId;     
     console.log("room : "+roomId);
-    database.ref(`room/${roomId}/start`).on('value', handleDataChange);
-    
+    // database.ref(`room/${roomId}/start`).on('value', handleDataChange);
+    // onValue(ref(`room/${roomId}/start`),handleDataChange(snapshot));
+
+    const startRef = ref(database, `rooms/${roomId}`);
+    onValue(startRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log('Data changed:', data["start"]);
+      if(data["start"]===1){
+        delayedLoop(10);
+                play_flag=false;
+                play_btn.style.display='none';
+            }
+    });
 }
+
 
 
 
@@ -184,14 +197,9 @@ function resetAll(){
 
 let play_flag = true;
 
-// const ref = ref(database, `rooms/${roomId}/start`);
 
     
-// ref.on('value', (snapshot) => {
-//     // This callback will be triggered whenever the data at 'path/to/data' changes
-//     const data = snapshot.val();
-//     console.log('Data changed:', data);
-//   });
+
 
 
 play_btn.addEventListener('click', function() {
