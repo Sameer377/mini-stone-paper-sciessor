@@ -5,12 +5,13 @@ var database = getDatabase(app);
 
 
 let selected_img = "";
-let play_btn = document.getElementById('btn_play');
+
 const rightImg = document.getElementById('solo_img_right');
 const leftImg = document.getElementById('solo_img_left');
 const maintitle = document.getElementById('maintitle');
+const playerstatus = document.getElementById('playerstatus');
 
-/* txt */
+
 const txt_start = document.getElementById('txt_start');
 const txt_countdown = document.getElementById('txt_count');
 
@@ -19,39 +20,52 @@ let roomId;
 const txt_roomid = document.getElementById('roomid');
 let flag = 0
 
+let playerCh={};
+
 
 function handleDataChange(snapshot) {
     var newData = snapshot.val();
-    // Update HTML/CSS accordingly
+    
     console.log("Start : ",newData);
     if(newData===1){
 delayedLoop(10);
         play_flag=false;
-        play_btn.style.display='none';
+        
     }
     
 
   }
   
-  // Attach listener to listen for changes in a specific path
+  
 
 window.onload=function (){
     roomId=localStorage.getItem('room_id');
     txt_roomid.textContent="Room Id : "+roomId;     
     console.log("room : "+roomId);
-    // database.ref(`room/${roomId}/start`).on('value', handleDataChange);
-    // onValue(ref(`room/${roomId}/start`),handleDataChange(snapshot));
+    
+    btndiv.style.display='none';
+    
 
-    const startRef = ref(database, `rooms/${roomId}`);
+    const startRef = ref(database, `rooms/${roomId}/start`);
     onValue(startRef, (snapshot) => {
       const data = snapshot.val();
-      console.log('Data changed:', data["start"]);
-      if(data["start"]===1){
+      console.log('Data changed:', data);
+      if(data===1){
         delayedLoop(10);
                 play_flag=false;
-                play_btn.style.display='none';
+                
             }
     });
+
+const statusRef = ref(database, `rooms/${roomId}/ownerstatus`);
+    onValue(statusRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log('status changed:', data);
+      playerstatus.textContent = "Player  "+data;
+    });
+
+
+
 }
 
 
@@ -86,16 +100,18 @@ function getRandomInt(min, max) {
 }
 
 
- // Flag to track whether the function is running
+ 
 
 
 function delayedLoop(count) {
 
     maintitle.textContent='Let\'s Play!'
     imgLoop = setInterval(changeLeftImg, 200);
+    btndiv.style.display='flex';
+
     txt_start.textContent='Count Down';
     function countTimer(c) {
-        txt_countdown.textContent = c; // Update the text content of the <h3> element
+        txt_countdown.textContent = c; 
         if(c==count){
             clearInterval(imgLoop);
             getSelectedMove();
@@ -117,14 +133,14 @@ function delayedLoop(count) {
 
 
 document.getElementById('btn_stone').addEventListener('click', function() {
-    // Redirect to another pagex    x   
+    
     selectImg=0;
     uploadOwnerChoice(0)
     rightImg.src='res/right_img/stone.png';
 });
 
 document.getElementById('btn_paper').addEventListener('click', function() {
-    // Redirect to another page
+    
     selectImg=1;
     uploadOwnerChoice(1)
 
@@ -133,7 +149,7 @@ document.getElementById('btn_paper').addEventListener('click', function() {
 });
 
 document.getElementById('btn_scissor').addEventListener('click', function() {
-    // Redirect to another page
+    
     selectImg=2;
     uploadOwnerChoice(2)
     
@@ -144,8 +160,8 @@ document.getElementById('btn_scissor').addEventListener('click', function() {
 let playerMove = 0
 
 function getSelectedMove(){
+    btndiv.style.display='none';
     
-  
     try {
         get(child(ref(database), `rooms`)).then(snapshot => {
             const data = snapshot.val();
@@ -183,15 +199,32 @@ function getSelectedMove(){
 
 }
 
- 
+document.addEventListener("visibilitychange", ()=>{
+
+    let data={};
+    if (document.hidden) {
+        data={
+            playerstatus:"offline"
+        }
+        update(ref(database, `rooms/${roomId}`), data)
+    } else {
+        data={
+            playerstatus:"online"
+        }
+        update(ref(database, `rooms/${roomId}`), data)
+    }    
+});
+
 
 function resetAll(){
-    play_btn.style.display='flex';
+    
     play_flag=true;
     txt_start.textContent= "start";
     txt_countdown.textContent="";
     selectImg=-1;
     currentIndex=0;
+
+    uploadOwnerChoice(0);
 }
 
 
@@ -202,15 +235,6 @@ let play_flag = true;
 
 
 
-play_btn.addEventListener('click', function() {
-
-    if(play_flag){
-        delayedLoop(10);
-        play_flag=false;
-        play_btn.style.display='none';
-    }
-   
-});
 
 document.getElementById('btn_back').addEventListener('click',function(){
     window.history.back();
@@ -224,10 +248,10 @@ function uploadOwnerChoice(ch) {
         player: ch
     };
     if (ch !== "") {
-        // Reference to the "rooms" node in the Realtime Database
+        
         const roomsRef = ref(database, `rooms/${roomId}`);
 
-        // Set the room data with room ID as the key
+        
         update(roomsRef, data)
             .then(() => {
                 console.log("Room data added to the database successfully!");
@@ -238,7 +262,6 @@ function uploadOwnerChoice(ch) {
     }
 }
 
-let playerCh={};
 
 function getPlayerChoice(){
     try {
